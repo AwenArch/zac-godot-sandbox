@@ -1,0 +1,3 @@
+- CharacterBody2D/CharacterBody3D have a BUILT-IN `velocity` property. Never declare `var velocity`.
+- `move_and_slide()` takes NO arguments in Godot 4. Set `velocity`, then call `move_and_slide()`.
+- Only use input actions that exist: ui_left, ui_right, ui_up, ui_down, ui_accept. Never invent actions like "ui_jump".
