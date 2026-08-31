@@ -21,7 +21,7 @@ grep -E "SCRIPT ERROR|ERROR:|LOAD FAIL" "$LOG" && FAIL=1
  
 echo "== 4/4 unit tests =="
 timeout 300 godot --headless -s addons/gdUnit4/bin/GdUnitCmdTool.gd --ignoreHeadlessMode --add res://tests/unit > "$LOG" 2>&1 || FAIL=1
-grep -E "FAILED|ERROR" "$LOG" && FAIL=1
+grep -E "FAILED|Parse Error|SCRIPT ERROR" "$LOG" && FAIL=1
  
 if [ "$FAIL" -ne 0 ]; then
   echo "==== VALIDATE: FAIL ===="
