@@ -34,3 +34,4 @@
 ## Waiting in tests
 - To let one physics frame process: `await get_tree().physics_frame`
 - SceneTree has NO physics_frame_time or physics_process_time property. Never use timers to wait for frames.
+- gdUnit4 number asserts: is_greater(x), is_less(x), is_equal(x). There is NO is_greater_than or is_less_than.
