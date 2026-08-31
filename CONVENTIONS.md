@@ -30,3 +30,7 @@
 
 ## Output format
 - Return full file contents for every file you create or change. No diffs. No prose outside the JSON.
+
+## Waiting in tests
+- To let one physics frame process: `await get_tree().physics_frame`
+- SceneTree has NO physics_frame_time or physics_process_time property. Never use timers to wait for frames.
