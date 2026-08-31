@@ -35,3 +35,7 @@
 - To let one physics frame process: `await get_tree().physics_frame`
 - SceneTree has NO physics_frame_time or physics_process_time property. Never use timers to wait for frames.
 - gdUnit4 number asserts: is_greater(x), is_less(x), is_equal(x). There is NO is_greater_than or is_less_than.
+- Never reference a class by bare name (e.g. Foo.new()) unless that file declares
+  `class_name Foo` or the class is preload()'d first (const Foo = preload("res://path/foo.gd")).
+  An unresolved bare class name CRASHES the Godot test runner (engine bug) rather than
+  failing cleanly - this is a hard rule, not a style preference.
