@@ -42,3 +42,9 @@
 - Connect signals with the signal-as-property syntax: `object.signal_name.connect(callable)`.
   Never `object.connect("signal_name", ...)` (Godot 3 syntax) and never wrap a lambda in
   Callable() when passing it directly — `func() -> void: ...` is already a Callable.
+- Avoid `:=` type inference when the right side's type isn't statically obvious
+  (e.g. `load(...).instantiate()`, `get_node(...)`). Use an explicit type instead:
+  `var main: Node = load("res://scenes/main/main.tscn").instantiate()`. An
+  unresolved `:=` inference is a parse error, and ANY parse error in a test file
+  crashes the gdUnit4 runner rather than failing cleanly (confirmed: this happens
+  for bare class references AND untyped := inference, likely any parse error).
