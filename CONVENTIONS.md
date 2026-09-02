@@ -39,3 +39,6 @@
   `class_name Foo` or the class is preload()'d first (const Foo = preload("res://path/foo.gd")).
   An unresolved bare class name CRASHES the Godot test runner (engine bug) rather than
   failing cleanly - this is a hard rule, not a style preference.
+- Connect signals with the signal-as-property syntax: `object.signal_name.connect(callable)`.
+  Never `object.connect("signal_name", ...)` (Godot 3 syntax) and never wrap a lambda in
+  Callable() when passing it directly — `func() -> void: ...` is already a Callable.
