@@ -21,3 +21,9 @@ offset_bottom = 20.0
 
 [node name="Player" parent="." unique_id=553325690 instance=ExtResource("1_hyk8p")]
 position = Vector2(575, 552)
+
+[node name="HUD" type="Node2D" parent="." unique_id=123456789]
+position = Vector2(10, 10)
+
+[node name="CoinCounter" type="Label" parent="HUD" unique_id=987654321]
+text = "Coins: 0"
