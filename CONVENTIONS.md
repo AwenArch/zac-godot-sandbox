@@ -56,3 +56,12 @@
   get_tree().paused) must be added to the scene tree with add_child() before
   those methods are called in a test - get_tree() returns null on a bare
   .new() instance that was never added anywhere.
+- Before writing a `search` value, verify it appears character-for-character
+  in the "Current contents" shown in THIS prompt - never search for text
+  based on memory of what a file "usually" looks like, an earlier version,
+  or an assumption that a prior attempt's edit already succeeded. If you
+  are not certain a line exists in the content shown above, it probably
+  does not.
+- When making multiple edits in one response, check they don't collide -
+  e.g. two edits that each declare the same variable. Each edit is applied
+  independently; duplicate declarations across edits will fail to parse.
