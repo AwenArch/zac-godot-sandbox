@@ -48,3 +48,11 @@
   unresolved `:=` inference is a parse error, and ANY parse error in a test file
   crashes the gdUnit4 runner rather than failing cleanly (confirmed: this happens
   for bare class references AND untyped := inference, likely any parse error).
+- Never load() a .tscn file you did not also create in this same response.
+  If a task doesn't explicitly ask you to create a scene file, build the
+  node tree in code within the test instead (new NodeType(), set properties,
+  add_child) rather than loading a scene that doesn't exist.
+- Any script whose methods use get_tree() (directly or indirectly, e.g. via
+  get_tree().paused) must be added to the scene tree with add_child() before
+  those methods are called in a test - get_tree() returns null on a bare
+  .new() instance that was never added anywhere.
