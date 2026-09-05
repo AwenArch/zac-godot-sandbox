@@ -65,3 +65,23 @@
 - When making multiple edits in one response, check they don't collide -
   e.g. two edits that each declare the same variable. Each edit is applied
   independently; duplicate declarations across edits will fail to parse.
+
+## Physics tests need a REAL floor
+- `is_on_floor()` is computed by actual collision during `move_and_slide()` -
+  it CANNOT be faked with `set_position()`, `set_collision_layer_value()`, or
+  any property assignment. A test with no floor node means `is_on_floor()` is
+  false forever, so any jump/ground logic gated on it will never trigger -
+  the player will just fall under gravity with no jump ever registering.
+- To test grounded behavior, instantiate a real floor in the test:
+```gdscript
+  var floor := StaticBody2D.new()
+  var shape := CollisionShape2D.new()
+  shape.shape = RectangleShape2D.new()
+  shape.shape.size = Vector2(1000, 40)
+  floor.add_child(shape)
+  add_child(floor)
+  floor.position = Vector2(0, 132)  # just below the player's feet
+```
+  Then position the player above it and `await get_tree().physics_frame`
+  at least once before asserting `is_on_floor()` - one frame is needed for
+  the collision to register.
