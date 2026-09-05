@@ -85,3 +85,13 @@
   Then position the player above it and `await get_tree().physics_frame`
   at least once before asserting `is_on_floor()` - one frame is needed for
   the collision to register.
+
+## Repeated input presses in tests
+- `Input.is_action_just_pressed()` only fires on the transition from
+  released to pressed. Calling `Input.action_press("x")` twice in a row
+  WITHOUT an `Input.action_release("x")` in between means the second call
+  does nothing - the action is already considered "pressed," so no new
+  "just pressed" edge occurs and no logic gated on it will trigger.
+- Always pair every simulated press with a release before the next press:
+  `action_press` -> await a frame -> `action_release` -> await a frame ->
+  repeat, if the test needs to press the same action more than once.
