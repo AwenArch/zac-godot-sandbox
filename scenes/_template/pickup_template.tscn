@@ -1,0 +1,8 @@
+[gd_scene format=3 uid="uid://bcf3gh4owd0c2"]
+
+[ext_resource type="Script" uid="uid://cry6vagnqpqis" path="res://scenes/_template/pickup_template.gd" id="1_jouox"]
+[ext_resource type="Texture2D" uid="uid://boq8tl8pftxf1" path="res://assets/sprites/coin/coin.png" id="2_48rgq"]
+
+[node name="PickupTemplate" type="Area2D" unique_id=1166947475]
+script = ExtResource("1_jouox")
+sprite_texture = ExtResource("2_48rgq")
