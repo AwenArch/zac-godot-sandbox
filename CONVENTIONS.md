@@ -95,3 +95,31 @@
 - Always pair every simulated press with a release before the next press:
   `action_press` -> await a frame -> `action_release` -> await a frame ->
   repeat, if the test needs to press the same action more than once.
+
+## Writing new .tscn scene files
+- Godot's scene format is strict, non-GDScript syntax - a real repro
+  showed the model reliably fails to hand-write it correctly from
+  scratch (a plain syntax slip like "Expected '['" crashes the whole
+  scene load). Copy the working pattern below instead of inventing the
+  structure.
+- Reference template: `scenes/_template/pickup_template.tscn` (an Area2D
+  with a CollisionShape2D and a Sprite2D - the standard shape for a coin,
+  pickup, or similar simple interactive object).
+- To create a new scene from it: copy the file's structure exactly,
+  changing ONLY:
+  - The root node's `name="..."` value
+  - The script's `path="res://..."` in its `[ext_resource type="Script" ...]`
+    line, pointing to your new script
+  - The texture's `path="res://..."` in its `[ext_resource type="Texture2D" ...]`
+    line, pointing to whichever sprite this task needs
+  - The `radius` value under `[sub_resource type="CircleShape2D" ...]` if a
+    different collision size is needed
+- Do NOT invent or copy `uid="..."` values (on the `[gd_scene ...]` line)
+  or `unique_id=...` values (on each `[node ...]` line). Omit them
+  entirely - Godot auto-assigns real ones on the next import. Copying a
+  template's literal uid into multiple different scene files risks two
+  files claiming the same identifier.
+- The `id="..."` values inside `ExtResource(...)`/`SubResource(...)` (like
+  `"1_jouox"`) are just local reference labels scoped to that one file -
+  fine to reuse verbatim from the template, they don't need to be unique
+  across files.
