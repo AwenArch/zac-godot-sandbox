@@ -128,3 +128,26 @@
 - The `id="..."` values inside `ExtResource(...)` (like `"1_jouox"`)
   are local reference labels scoped to that one file - fine to reuse
   verbatim, they don't need to be unique across files.
+
+## Testing signals: lambda closures capture by value, not reference
+- GDScript lambdas capture local variables BY VALUE - `func(): flag = true`
+  sets an invisible PRIVATE COPY of `flag`, never the outer scope's real
+  variable. A test like `var got_it := false;
+  signal.connect(func(): got_it = true)` will ALWAYS assert `got_it` as
+  false, even though the lambda genuinely ran - this is silent and easy
+  to miss, since nothing errors.
+- To test whether a signal fired, capture a single-element Array instead
+  (Arrays ARE shared by reference in GDScript):
+```gdscript
+  var fired := [false]
+  some_signal.connect(func(): fired[0] = true)
+  # ... trigger the signal ...
+  assert_bool(fired[0]).is_true()
+```
+- If a test asserting on a signal-set flag is failing and the underlying
+  logic seems right, add print() statements at every step of the real
+  code path (not just the test) before assuming the logic is broken -
+  it may be entirely correct and only the test's capture pattern is at
+  fault (confirmed via issue #212's coin pickup: every step of the real
+  signal-emission chain printed correctly, proving the game code was
+  fine, while the test's plain-bool capture silently never updated).
