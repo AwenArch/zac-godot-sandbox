@@ -12,6 +12,8 @@ var gravity: float = ProjectSettings.get_setting("physics/2d/default_gravity")
 ## Player's score
 var score: int = 0
 
+@onready var hud: CanvasLayer = null
+
 
 func _physics_process(delta: float) -> void:
 	# NOTE: `velocity` is CharacterBody2D's built-in property. Never redeclare it.
@@ -22,15 +24,22 @@ func _physics_process(delta: float) -> void:
 		velocity.y = jump_velocity
 
 	# Axis is -1.0 (left) to 1.0 (right); 0.0 when no input.
-	var direction: float = Input.get_axis("ui_left", "ui_right")
-	if direction != 0.0:
-		velocity.x = direction * speed
+	var axis: float = Input.get_axis("ui_left", "ui_right")
+	if axis != 0.0:
+		velocity.x = axis * speed
 	else:
 		velocity.x = move_toward(velocity.x, 0.0, speed)
 
 	# Godot 4: move_and_slide() takes NO arguments; it uses `velocity`.
 	move_and_slide()
 
+	# Update HUD if available
+	if hud != null:
+		hud.update_score(score)
+
 
 func increment_score(amount: int) -> void:
 	score += amount
+	# Update HUD if available
+	if hud != null:
+		hud.update_score(score)

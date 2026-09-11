@@ -1,0 +1,13 @@
+[gd_scene format=3 uid="uid://bcf3gh4owd0c3"]
+
+[ext_resource type="Script" path="res://scenes/hud/hud.gd" id="1_jouox"]
+
+[node name="HUD" type="CanvasLayer" unique_id=1166947476]
+script = ExtResource("1_jouox")
+
+[node name="ScoreLabel" type="Label" parent="." unique_id=1166947477]
+text = "Score: 0"
+anchor_right = 1.0
+anchor_bottom = 1.0
+position = Vector2(500, 50)
+size = Vector2(100, 30)
