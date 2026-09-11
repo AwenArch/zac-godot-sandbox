@@ -9,6 +9,9 @@ extends CharacterBody2D
 ## Pulled from Project Settings so all bodies share one gravity value.
 var gravity: float = ProjectSettings.get_setting("physics/2d/default_gravity")
 
+## Player's score
+var score: int = 0
+
 
 func _physics_process(delta: float) -> void:
 	# NOTE: `velocity` is CharacterBody2D's built-in property. Never redeclare it.
@@ -27,3 +30,7 @@ func _physics_process(delta: float) -> void:
 
 	# Godot 4: move_and_slide() takes NO arguments; it uses `velocity`.
 	move_and_slide()
+
+
+func increment_score(amount: int) -> void:
+	score += amount
