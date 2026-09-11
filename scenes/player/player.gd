@@ -12,6 +12,9 @@ var gravity: float = ProjectSettings.get_setting("physics/2d/default_gravity")
 ## Player's score
 var score: int = 0
 
+## Number of jumps performed (0 = grounded, 1 = first jump, 2 = second jump)
+var jump_count: int = 0
+
 @onready var hud: CanvasLayer = null
 
 
@@ -19,9 +22,16 @@ func _physics_process(delta: float) -> void:
 	# NOTE: `velocity` is CharacterBody2D's built-in property. Never redeclare it.
 	if not is_on_floor():
 		velocity.y += gravity * delta
+	else:
+		jump_count = 0
 
-	if Input.is_action_just_pressed("ui_accept") and is_on_floor():
-		velocity.y = jump_velocity
+	if Input.is_action_just_pressed("ui_accept"):
+		if is_on_floor():
+			velocity.y = jump_velocity
+			jump_count = 1
+		elif jump_count == 1:
+			velocity.y = jump_velocity
+			jump_count = 2
 
 	# Axis is -1.0 (left) to 1.0 (right); 0.0 when no input.
 	var axis: float = Input.get_axis("ui_left", "ui_right")
