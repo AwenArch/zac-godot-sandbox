@@ -122,9 +122,18 @@
      vars, a _ready() that builds child nodes in code) but write your
      own logic for what the object actually does - don't just reuse the
      template's contents verbatim for the script.
-- Do NOT invent or copy `uid="..."` values (on the `[gd_scene ...]`
-  line) or `unique_id=...` values (on each `[node ...]` line). Omit
-  them entirely - Godot auto-assigns real ones on the next import.
+- Do NOT invent or copy ANY `uid="..."` value anywhere in the file -
+  not on the `[gd_scene ...]` line, not on `unique_id=...` on any
+  `[node ...]` line, and NOT on the `uid="..."` attribute inside an
+  `[ext_resource type="Script" uid="..." ...]` or
+  `[ext_resource type="Texture2D" uid="..." ...]` line. Omit uid=
+  entirely everywhere - Godot resolves ext_resource by `path=` alone
+  just fine, and auto-assigns real uids on the next import. A real,
+  confirmed bug from copying the exemplar's literal Script uid into a
+  new scene (issue #214, HUD): two different .tscn files both claiming
+  the same script uid made Godot attach the WRONG script to the wrong
+  node, producing a "Script inherits from native type X, can't be
+  assigned to Y" error with no obvious connection to the real cause.
 - The `id="..."` values inside `ExtResource(...)` (like `"1_jouox"`)
   are local reference labels scoped to that one file - fine to reuse
   verbatim, they don't need to be unique across files.
