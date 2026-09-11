@@ -1,0 +1,8 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://scenes/coin/coin.gd" id="1"]
+[ext_resource type="Texture2D" path="res://assets/sprites/coin/coin.png" id="2"]
+
+[node name="Coin" type="Area2D"]
+script = ExtResource("1")
+sprite_texture = ExtResource("2")
