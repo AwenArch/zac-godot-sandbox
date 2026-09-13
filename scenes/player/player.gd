@@ -16,6 +16,9 @@ var score: int = 0
 ## Number of jumps performed (0 = grounded, 1 = first jump, 2 = second jump)
 var jump_count: int = 0
 
+## Spawn position for respawning
+var spawn_position: Vector2 = Vector2.ZERO
+
 @onready var hud: CanvasLayer = null
 @onready var audio_player: AudioStreamPlayer2D = null
 
@@ -50,6 +53,14 @@ func _physics_process(delta: float) -> void:
 	# Godot 4: move_and_slide() takes NO arguments; it uses `velocity`.
 	move_and_slide()
 
+	# Check if player has fallen below respawn threshold. 900 is well
+	# below the floor's top surface (~580) and normal standing height
+	# (~552-556) - a threshold of 500 would fire every frame just from
+	# standing on the ground, since standing height already exceeds it.
+	if global_position.y > 900:
+		global_position = spawn_position
+		velocity = Vector2.ZERO
+
 	# Play land sound if player just landed
 	if not was_on_floor and is_on_floor() and land_sound != null and not _landed:
 		audio_player.stream = land_sound
@@ -72,3 +83,6 @@ func _ready() -> void:
 	audio_player = AudioStreamPlayer2D.new()
 	audio_player.autoplay = false
 	add_child(audio_player)
+
+	# Store initial spawn position
+	spawn_position = global_position
