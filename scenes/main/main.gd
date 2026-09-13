@@ -11,6 +11,10 @@ func _ready() -> void:
 	var coin: Area2D = coin_scene.instantiate()
 	add_child(coin)
 	coin.name = "Coin"
+	# Positioned to the right of the player's start (575, 552), high enough
+	# above the floor (top surface ~y=580) that a single jump (~82px peak)
+	# can't reach it, but a double-jump comfortably can.
+	coin.position = Vector2(700, 440)
 
 	# Instantiate the HUD
 	var hud_scene: PackedScene = load("res://scenes/hud/hud.tscn")
