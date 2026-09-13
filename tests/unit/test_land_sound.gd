@@ -56,6 +56,7 @@ func test_player_plays_sound_on_landing() -> void:
 	# Wait for physics frames to process the landing collision.
 	await get_tree().physics_frame
 	await get_tree().physics_frame
+	await get_tree().physics_frame
 
 	# Verify player is on floor again
 	assert_bool(player.is_on_floor()).is_true()
