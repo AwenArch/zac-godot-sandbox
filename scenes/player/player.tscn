@@ -1,6 +1,7 @@
 [gd_scene format=3 uid="uid://covua3h1ba61l"]
 
 [ext_resource type="Script" uid="uid://dkspe5vpmgou0" path="res://scenes/player/player.gd" id="1_8afob"]
+[ext_resource type="Texture2D" path="res://assets/sprites/player/player.png" id="2_player_sprite"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_dovo2"]
 size = Vector2(32, 48)
@@ -11,9 +12,5 @@ script = ExtResource("1_8afob")
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=201755743]
 shape = SubResource("RectangleShape2D_dovo2")
 
-[node name="ColorRect" type="ColorRect" parent="." unique_id=1322933326]
-offset_left = -16.0
-offset_top = -24.0
-offset_right = 16.0
-offset_bottom = 24.0
-color = Color(0.83137256, 0.40392157, 0.11372549, 1)
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=1322933326]
+texture = ExtResource("2_player_sprite")
