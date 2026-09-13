@@ -5,6 +5,7 @@ extends CharacterBody2D
 
 @export var speed: float = 200.0
 @export var jump_velocity: float = -400.0
+@export var land_sound: AudioStream = null
 
 ## Pulled from Project Settings so all bodies share one gravity value.
 var gravity: float = ProjectSettings.get_setting("physics/2d/default_gravity")
@@ -16,12 +17,18 @@ var score: int = 0
 var jump_count: int = 0
 
 @onready var hud: CanvasLayer = null
+@onready var audio_player: AudioStreamPlayer2D = null
+
+## Flag to track if sound has been played for current landing
+var _landed: bool = false
 
 
 func _physics_process(delta: float) -> void:
 	# NOTE: `velocity` is CharacterBody2D's built-in property. Never redeclare it.
+	var was_on_floor := is_on_floor()
 	if not is_on_floor():
 		velocity.y += gravity * delta
+		_landed = false
 	else:
 		jump_count = 0
 
@@ -43,6 +50,12 @@ func _physics_process(delta: float) -> void:
 	# Godot 4: move_and_slide() takes NO arguments; it uses `velocity`.
 	move_and_slide()
 
+	# Play land sound if player just landed
+	if not was_on_floor and is_on_floor() and land_sound != null and not _landed:
+		audio_player.stream = land_sound
+		audio_player.play()
+		_landed = true
+
 	# Update HUD if available
 	if hud != null:
 		hud.update_score(score)
@@ -53,3 +66,9 @@ func increment_score(amount: int) -> void:
 	# Update HUD if available
 	if hud != null:
 		hud.update_score(score)
+
+
+func _ready() -> void:
+	audio_player = AudioStreamPlayer2D.new()
+	audio_player.autoplay = false
+	add_child(audio_player)
