@@ -20,9 +20,6 @@ func _ready() -> void:
 	if sprite_texture:
 		var sprite := Sprite2D.new()
 		sprite.texture = sprite_texture
-		# Generated sprites come out at 1024x1024 - scale down to roughly
-		# match the collision circle (radius 16 -> ~32px diameter).
-		sprite.scale = Vector2(0.035, 0.035)
 		add_child(sprite)
 
 	body_entered.connect(_on_body_entered)
